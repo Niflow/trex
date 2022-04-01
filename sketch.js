@@ -1,15 +1,15 @@
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 var nuvem, nuvemImagem;
-
-// Pré carregamento
+var cacto1;
+// Prï¿½ carregamento
 function preload(){
   trex_running = loadAnimation("trex1.png","trex2.png","trex3.png");
   trex_collided = loadImage("trex_collided.png");
   
   groundImage = loadImage("ground2.png");
   nuvemImagem = loadImage("cloud.png");
- 
+ cacto1=loadImage("obstacle1.png");
   
 }
 
@@ -55,6 +55,7 @@ function draw() {
   trex.collide(invisibleGround);
 
   criarNuvens();
+  criarCactos();
 
   drawSprites();
   
@@ -68,12 +69,13 @@ function criarNuvens() {
     nuvem = createSprite(600, 100, 40, 10);
     // Adicionar imagem
     nuvem.addImage(nuvemImagem);
-    // Criar números aleatórios entre 10 e 60
+    // Criar nï¿½meros aleatï¿½rios entre 10 e 60
     nuvem.y = Math.round(random(10, 60));
     // alterar o tamanho da nuvem
     nuvem.scale = 0.4;
     nuvem.velocityX = -3;
 
+    nuvem.lifetime=200;
     // ajuste da profundidade
     nuvem.depth = trex.depth
     trex.depth = trex.depth + 1;
@@ -81,5 +83,13 @@ function criarNuvens() {
   }
 }
 
+function criarCactos() {
+  if (frameCount % 60 == 0) {
+
+  var cacto=createSprite(400, 165, 10, 40);
+  cacto.addImage(cacto1);
+  cacto.velocityX=-6; 
+}
 
 
+}

@@ -1,20 +1,15 @@
-// Variáveis globais
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 var nuvem, nuvemImagem;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
-var grupoNuvens, grupoCactos;
+var pontos = 0;
 
-const INICIO = 1;
-const FIM = 0;
-var estadoDoJogo = INICIO;
-
-// Pré carregamento
+// PrÃ© carregamento
 function preload(){
   trex_running = loadAnimation("trex1.png","trex2.png","trex3.png");
   trex_collided = loadImage("trex_collided.png");
   
-  // carregando a imagem do ch�o
+  // carregando a imagem do chÃ£o
   groundImage = loadImage("ground2.png");
 
   // carregando a imagem das nuvens
@@ -29,7 +24,6 @@ function preload(){
   cacto6 = loadImage("obstacle6.png");
 }
 
-// Função de configuração
 function setup() {
 
   createCanvas(600,200)
@@ -43,13 +37,12 @@ function setup() {
   ground = createSprite(200,180,400,20);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
+  ground.velocityX = -4;
   
-  //crie um solo invisível
+  //crie um solo invisÃ­vel
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
-
-  grupoNuvens = new Group();
-  grupoCactos = new Group();
+  
 }
 
 // TELA
@@ -57,19 +50,14 @@ function draw() {
   //definir cor do plano de fundo
   background(0);
 
-  if (estadoDoJogo === INICIO) {
-    ground.velocityX = -4;
-  }
-  else if (estadoDoJogo === FIM) {
-    ground.velocityX = 0;
-  }
+  text("Pontuação: " + pontos, 500, 50);
+  // a pontuaÃ§Ã£o Ã© quanto de distÃ¢ncia o dinossauro corre sem morrer
+  pontos = pontos + Math.round(frameCount/60);
   
-  // pulando o trex ao pressionar a tecla de espa�o
+  // pulando o trex ao pressionar a tecla de espaÃ§o
   if(keyDown("space")&& trex.y >= 100) {
     trex.velocityY = -10;
   }
-
-  
   
   trex.velocityY = trex.velocityY + 0.8
   
@@ -94,39 +82,36 @@ function criarNuvens() {
     nuvem = createSprite(600, 100, 40, 10);
     // Adicionar imagem
     nuvem.addImage(nuvemImagem);
-    // Criar n�meros aleat�rios entre 10 e 60
+    // Criar nï¿½meros aleatï¿½rios entre 10 e 60
     nuvem.y = Math.round(random(10, 60));
     // alterar o tamanho da nuvem
     nuvem.scale = 0.4;
     nuvem.velocityX = -3;
 
-    // Determinando o tempo de vida da nuvem
-    nuvem.lifetime = 200;
-
+    nuvem.lifetime=200;
     // ajuste da profundidade
     nuvem.depth = trex.depth
     trex.depth = trex.depth + 1;
 
-    grupoNuvens.add(nuvem);
   }
 }
 
-// criando obstáculos (cactos)
+// criando obstÃ¡culos (cactos)
 function criarCactos() {
-  // condi��o para colocar 1 cacto a cada segundo
+  // condiÃ§Ã£o para colocar 1 cacto a cada segundo
   if (frameCount % 60 == 0) {
 
     // criando uma sprite para o cacto
     var cacto=createSprite(400, 165, 10, 40);
 
-    // faz o cacto andar para tr�s
+    // faz o cacto andar para trï¿½s
     cacto.velocityX=-6;
 
-    // criando n�meros aleat�rios para os cactos
+    // criando nï¿½meros aleatï¿½rios para os cactos
     var numeroDoCacto = Math.round(random(1, 6));
 
-    // condi��es
-    // SE o n�mero do cacto..: 
+    // condiÃ§Ãµes
+    // SE o nÃºmero do cacto..: 
     switch (numeroDoCacto) {
       // caso seja o valor 1
       case 1:
@@ -155,8 +140,6 @@ function criarCactos() {
     }
     cacto.scale = 0.5;
     cacto.lifetime = 300;
-
-    grupoCactos.add(cacto);
   }
 }
 
@@ -165,7 +148,7 @@ function criarCactos() {
 
 // var corDaBlusa = 'amarelo';
 
-// condi��es
+// condiÃ§Ãµes
 // SE a cor da blusa..: 
 // switch (corDaBlusa) {
 //   // caso seja a cor amarelo

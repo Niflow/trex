@@ -33,7 +33,7 @@ function preload(){
 function setup() {
 
   createCanvas(600,200)
-  
+
   //crie um sprite de trex
   trex = createSprite(50,160,20,50);
   trex.addAnimation("running", trex_running);
@@ -57,31 +57,45 @@ function draw() {
   //definir cor do plano de fundo
   background(0);
 
+  // determina a área envolta do trex que poderá bater em outro objeto
+  trex.setCollider("circle", 0, 0, 40);
+  trex.debug = true;  
+
   if (estadoDoJogo === INICIO) {
     ground.velocityX = -4;
+
+    // pulando o trex ao pressionar a tecla de espaço
+    if(keyDown("space")&& trex.y >= 100) {
+      trex.velocityY = -10;
+    }
+    
+    trex.velocityY = trex.velocityY + 0.8
+    
+    // para fazer condição
+    if (ground.x < 0){
+      ground.x = ground.width/2;
+    }
+    
+    //impedir que o trex caia
+    trex.collide(invisibleGround);
+
+    criarNuvens();
+    criarCactos();
+
+    // se grupoCactos está tocando
+    if (grupoCactos.isTouching(trex)) {
+      estadoDoJogo = FIM;
+    }
+
   }
   else if (estadoDoJogo === FIM) {
     ground.velocityX = 0;
-  }
-  
-  // pulando o trex ao pressionar a tecla de espa�o
-  if(keyDown("space")&& trex.y >= 100) {
-    trex.velocityY = -10;
-  }
 
-  
-  
-  trex.velocityY = trex.velocityY + 0.8
-  
-  if (ground.x < 0){
-    ground.x = ground.width/2;
+    grupoNuvens.setVelocityXEach(0);
+    grupoCactos.setVelocityXEach(0);
   }
   
-  //impedir que o trex caia
-  trex.collide(invisibleGround);
-
-  criarNuvens();
-  criarCactos();
+  
 
   drawSprites();
 }

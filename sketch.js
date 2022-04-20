@@ -4,6 +4,7 @@ var ground, invisibleGround, groundImage;
 var nuvem, nuvemImagem;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var grupoNuvens, grupoCactos,fimJogo,fimJogoImg;
+var reiniciar, reiniciarImg;
 
 const INICIO = 1;
 const FIM = 0;
@@ -28,6 +29,7 @@ function preload(){
   cacto5 = loadImage("obstacle5.png");
   cacto6 = loadImage("obstacle6.png");
   fimJogoImg = loadImage("gameOver.png");
+  reiniciarImg = loadImage("restart.png");
 }
 
 // Função de configuração
@@ -46,9 +48,14 @@ function setup() {
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
   
-  fimJogo=createSprite(300,100);
+  fimJogo = createSprite(300,100);
   fimJogo.addImage(fimJogoImg);
-  fimJogo.scale=0.11;
+  fimJogo.visible = false;
+
+  reiniciar = createSprite(300, 100);
+  reiniciar.addImage(reiniciarImg);
+  reiniciar.scale = 0.5;
+  reiniciar.visible = false;
   
   //crie um solo invisível
   invisibleGround = createSprite(200,190,400,10);
@@ -61,7 +68,7 @@ function setup() {
 // TELA
 function draw() {
   //definir cor do plano de fundo
-  background(0);
+  background("white");
 
   // determina a área envolta do trex que poderá bater em outro objeto
   trex.setCollider("circle", 0, 0, 40);
@@ -97,6 +104,8 @@ function draw() {
   else if (estadoDoJogo === FIM) {
     ground.velocityX = 0;
     trex.changeAnimation("collided",trex_collided);
+    fimJogo.visible = true;
+    reiniciar.visible = true;
     grupoNuvens.setVelocityXEach(0);
     grupoCactos.setVelocityXEach(0);
   }

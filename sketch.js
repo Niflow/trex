@@ -100,6 +100,7 @@ function draw() {
       estadoDoJogo = FIM;
     }
 
+
   }
   else if (estadoDoJogo === FIM) {
     ground.velocityX = 0;
@@ -113,6 +114,12 @@ function draw() {
   
 
   drawSprites();
+}
+
+function mousePressed() {
+  if (estadoDoJogo == FIM) {
+    estadoDoJogo = INICIO;
+  }
 }
 
 // criando as nuvens
@@ -188,7 +195,9 @@ function criarCactos() {
     grupoCactos.add(cacto);
   }
 }
-
+function recomecar() {
+  
+}
 
 // exemplos:
 

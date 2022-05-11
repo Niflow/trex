@@ -1,4 +1,13 @@
-// VariÃ¡veis globais
+/**
+ * Comandos de controle:
+ * 
+ * Se condição for verdadeira (if = se)
+ * if (condição) {
+ *    faz alguma coisa
+ * }
+ */
+
+// Variáveis globais
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 var nuvem, nuvemImagem;
@@ -6,11 +15,11 @@ var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var grupoNuvens, grupoCactos,fimJogo,fimJogoImg;
 var reiniciar, reiniciarImg;
 
-const INICIO = 1;
+const PLAY = 1;
 const FIM = 0;
-var estadoDoJogo = INICIO;
+var estadoDoJogo = PLAY;
 
-// PrÃ© carregamento
+// Pré carregamento
 function preload(){
   trex_running = loadAnimation("trex1.png","trex2.png","trex3.png");
   trex_collided = loadAnimation("trex_collided.png");
@@ -32,10 +41,10 @@ function preload(){
   reiniciarImg = loadImage("restart.png");
 }
 
-// FunÃ§Ã£o de configuraÃ§Ã£o
+// Função de configuração
 function setup() {
 
-  createCanvas(600,200)
+  createCanvas(600,200);
 
   //crie um sprite de trex
   trex = createSprite(50,160,20,50);
@@ -57,7 +66,7 @@ function setup() {
   reiniciar.scale = 0.5;
   reiniciar.visible = false;
   
-  //crie um solo invisÃ­vel
+  //crie um solo invisível
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
 
@@ -68,15 +77,15 @@ function setup() {
 // TELA
 function draw() {
   //definir cor do plano de fundo
-  background("white");
-
-  // determina a Ã¡rea envolta do trex que poderÃ¡ bater em outro objeto
+  background("black");
+  
+  // determina a área envolta do trex que poderá bater em outro objeto
   trex.setCollider("circle", 0, 0, 40);
   //trex.debug = true;  
 
-  if (estadoDoJogo === INICIO) {
+  if (estadoDoJogo === PLAY) {
     ground.velocityX = -4;
-
+    
     // pulando o trex ao pressionar a tecla de espaÃ§o
     if(keyDown("space")&& trex.y >= 100) {
       trex.velocityY = -10;
@@ -84,7 +93,7 @@ function draw() {
     
     trex.velocityY = trex.velocityY + 0.8
     
-    // para fazer condiÃ§Ã£o
+    // para fazer condição
     if (ground.x < 0){
       ground.x = ground.width/2;
     }
@@ -95,11 +104,10 @@ function draw() {
     criarNuvens();
     criarCactos();
 
-    // se grupoCactos estÃ¡ tocando
+    // se grupoCactos está tocando
     if (grupoCactos.isTouching(trex)) {
       estadoDoJogo = FIM;
     }
-
 
   }
   else if (estadoDoJogo === FIM) {
@@ -111,15 +119,25 @@ function draw() {
     grupoCactos.setVelocityXEach(0);
   }
   
-  
+  // Se mouse clicar na imagem de reiniciar o jogo será reiniciado
+  if (mousePressedOver(reiniciar)) {
+    reiniciarJogo();
+  }
 
   drawSprites();
 }
 
-function mousePressed() {
-  if (estadoDoJogo == FIM) {
-    estadoDoJogo = INICIO;
-  }
+// function mousePressed() {
+//   if (estadoDoJogo === FIM) {
+//     estadoDoJogo = PLAY;
+//   }
+// }
+
+function reiniciarJogo()
+{
+  console.log('reiniciarJogo');
+  estadoDoJogo = PLAY;
+
 }
 
 // criando as nuvens
@@ -130,7 +148,7 @@ function criarNuvens() {
     nuvem = createSprite(600, 100, 40, 10);
     // Adicionar imagem
     nuvem.addImage(nuvemImagem);
-    // Criar nï¿½meros aleatï¿½rios entre 10 e 60
+    // Criar números aleatórios entre 10 e 60
     nuvem.y = Math.round(random(10, 60));
     // alterar o tamanho da nuvem
     nuvem.scale = 0.4;
@@ -147,15 +165,15 @@ function criarNuvens() {
   }
 }
 
-// criando obstÃ¡culos (cactos)
+// criando obstáculos (cactos)
 function criarCactos() {
-  // condiï¿½ï¿½o para colocar 1 cacto a cada segundo
+  // condiçãoo para colocar 1 cacto a cada segundo
   if (frameCount % 60 == 0) {
 
     // criando uma sprite para o cacto
     var cacto=createSprite(400, 165, 10, 40);
 
-    // faz o cacto andar para trï¿½s
+    // faz o cacto andar para trás
     cacto.velocityX=-6;
 
     // criando nï¿½meros aleatï¿½rios para os cactos

@@ -59558,7 +59558,7 @@ p5.prototype.touches = [];
 p5.prototype._updateTouchCoords = function(e) {
   if (this._curElement !== null) {
     var touches = [];
-    for (var i = 0; i < e.touches.length; i++) {
+    for (var i = 0; i < touches.length; i++) {
       touches[i] = getTouchInfo(
         this._curElement.elt,
         this.width,

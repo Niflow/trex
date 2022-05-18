@@ -15,6 +15,7 @@ var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var grupoNuvens, grupoCactos,fimJogo,fimJogoImg;
 var reiniciar, reiniciarImg;
 var somPular, somMorrer;
+var pontos=0;
 
 const PLAY = 1;
 const FIM = 0;
@@ -85,10 +86,12 @@ function draw() {
   
   // determina a área envolta do trex que poderá bater em outro objeto
   trex.setCollider("circle", 0, 0, 40);
+  text("pontos:" +pontos,500,50);
   //trex.debug = true;  
 
   if (estadoDoJogo === PLAY) {
     ground.velocityX = -4;
+    pontos=pontos+Math.round(getFrameRate()/60);
 
     trex.changeAnimation("running");
 
@@ -114,6 +117,7 @@ function draw() {
     // se grupoCactos está tocando
     if (grupoCactos.isTouching(trex)) {
       estadoDoJogo = FIM;
+      somMorrer.play();
     }
 
   }
@@ -127,7 +131,9 @@ function draw() {
 
     grupoNuvens.destroyEach();
     grupoCactos.destroyEach();
+   
   }
+
   
   // Se mouse clicar na imagem de reiniciar o jogo será reiniciado
   if (mousePressedOver(reiniciar)) {

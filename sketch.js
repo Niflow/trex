@@ -137,6 +137,8 @@ function reiniciarJogo()
 {
   console.log('reiniciarJogo');
   estadoDoJogo = PLAY;
+  fimJogo.visible = false; 
+  reiniciar.visible = false;
 
 }
 

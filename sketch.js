@@ -14,6 +14,7 @@ var nuvem, nuvemImagem;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var grupoNuvens, grupoCactos,fimJogo,fimJogoImg;
 var reiniciar, reiniciarImg;
+var somPular, somMorrer;
 
 const PLAY = 1;
 const FIM = 0;
@@ -24,7 +25,7 @@ function preload(){
   trex_running = loadAnimation("trex1.png","trex2.png","trex3.png");
   trex_collided = loadAnimation("trex_collided.png");
   
-  // carregando a imagem do chï¿½o
+  // carregando a imagem do chão
   groundImage = loadImage("ground2.png");
 
   // carregando a imagem das nuvens
@@ -39,6 +40,9 @@ function preload(){
   cacto6 = loadImage("obstacle6.png");
   fimJogoImg = loadImage("gameOver.png");
   reiniciarImg = loadImage("restart.png");
+
+  somPular = loadSound("jump.wav");
+  somMorrer = loadSound("collided.wav");
 }
 
 // Função de configuração
@@ -85,10 +89,13 @@ function draw() {
 
   if (estadoDoJogo === PLAY) {
     ground.velocityX = -4;
-    
-    // pulando o trex ao pressionar a tecla de espaÃ§o
+
+    trex.changeAnimation("running");
+
+    // pulando o trex ao pressionar a tecla de espaço
     if(keyDown("space")&& trex.y >= 100) {
       trex.velocityY = -10;
+      somPular.play();
     }
     
     trex.velocityY = trex.velocityY + 0.8
@@ -112,11 +119,14 @@ function draw() {
   }
   else if (estadoDoJogo === FIM) {
     ground.velocityX = 0;
-    trex.changeAnimation("collided",trex_collided);
+    trex.changeAnimation("collided");
     fimJogo.visible = true;
     reiniciar.visible = true;
     grupoNuvens.setVelocityXEach(0);
     grupoCactos.setVelocityXEach(0);
+
+    grupoNuvens.destroyEach();
+    grupoCactos.destroyEach();
   }
   
   // Se mouse clicar na imagem de reiniciar o jogo será reiniciado
@@ -127,18 +137,12 @@ function draw() {
   drawSprites();
 }
 
-// function mousePressed() {
-//   if (estadoDoJogo === FIM) {
-//     estadoDoJogo = PLAY;
-//   }
-// }
-
 function reiniciarJogo()
 {
-  console.log('reiniciarJogo');
   estadoDoJogo = PLAY;
   fimJogo.visible = false; 
   reiniciar.visible = false;
+
 
 }
 
@@ -178,7 +182,7 @@ function criarCactos() {
     // faz o cacto andar para trás
     cacto.velocityX=-6;
 
-    // criando nï¿½meros aleatï¿½rios para os cactos
+    // criando números aleatórios para os cactos
     var numeroDoCacto = Math.round(random(1, 6));
 
     // condiï¿½ï¿½es
@@ -214,9 +218,6 @@ function criarCactos() {
 
     grupoCactos.add(cacto);
   }
-}
-function recomecar() {
-  
 }
 
 // exemplos:

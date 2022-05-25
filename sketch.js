@@ -86,7 +86,7 @@ function draw() {
   
   // determina a área envolta do trex que poderá bater em outro objeto
   trex.setCollider("circle", 0, 0, 40);
-  text("pontos:" +pontos,500,50);
+  text("Pontos: " +pontos,500,50);
   //trex.debug = true;  
 
   if (estadoDoJogo === PLAY) {
@@ -108,9 +108,6 @@ function draw() {
       ground.x = ground.width/2;
     }
     
-    //impedir que o trex caia
-    trex.collide(invisibleGround);
-
     criarNuvens();
     criarCactos();
 
@@ -133,12 +130,14 @@ function draw() {
     grupoCactos.destroyEach();
    
   }
-
   
   // Se mouse clicar na imagem de reiniciar o jogo será reiniciado
   if (mousePressedOver(reiniciar)) {
     reiniciarJogo();
   }
+
+  //impedir que o trex caia
+  trex.collide(invisibleGround);
 
   drawSprites();
 }
